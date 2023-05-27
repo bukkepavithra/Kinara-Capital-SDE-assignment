@@ -1,0 +1,57 @@
+class Student:
+    def _init_(self, student_data):
+        self.student_data = student_data
+
+    def load_student_details(self, page_number, page_size):
+        start_index = (page_number - 1) * page_size
+        end_index = start_index + page_size
+        page_data = self.student_data[start_index:end_index]
+        return page_data
+
+    def filter_student_details(self, filters):
+        filtered_data = self.student_data
+        for filter_key, filter_value in filters.items():
+            filtered_data = [data for data in filtered_data if data[filter_key] == filter_value]
+        return filtered_data
+
+# Sample student details data
+student_data = [
+    {"id": "1", "name": "Ram", "total_marks": "92", "grade": "A+"},
+    {"id": "2", "name": "Rahul", "total_marks": "82", "grade": "B+"},
+    {"id": "3", "name": "Rishi", "total_marks":"91", "grade": "A-" },
+    {"id": "4", "name": "Surya", "total_marks": "75", "grade": "B"},
+    {"id": "5", "name": "Sri", "total_marks": "85", "grade": "B+"},
+    {"id": "6", "name": "Smith", "total_marks": "80", "grade": "B"},
+    {"id": "7", "name": "Swesh", "total_marks": "95", "grade": "A+"},
+    {"id": "8", "name": "srey", "total_marks":"74", "grade": "C" },
+    {"id": "9", "name": "Sneh", "total_marks":"95", "grade": "A+" },
+    {"id": "10", "name": "Ahkil", "total_marks":"90", "grade": "A" }
+]
+
+# Create Student instance
+student = Student(student_data)
+
+# API endpoint to Load Student Details
+def load_student_details_api(page_number, page_size):
+    paginated_data = student.load_student_details(page_number, page_size)
+    return paginated_data
+
+# API endpoint for Server-side Filtering
+def filter_student_details_api(filters):
+    filtered_data = student.filter_student_details(filters)
+    return filtered_data
+
+# Example usage
+page_number = 1
+page_size = 5
+filtered_criteria = {"grade": "A+"}
+
+# Load Student Details API
+result = load_student_details_api(page_number, page_size)
+print("Load Student Details API:")
+print(result)
+
+# Server-side Filtering API
+result = filter_student_details_api(filtered_criteria)
+print("\nServer-side Filtering API:")
+print(result)
